@@ -60,14 +60,14 @@
 <tbody>
   {% for d in details %}
   <tr>
-    <td>{{d.loc_id}}</td>
-    <td>{{d.loc_name}}</td>
+    <td>{{d._id}}</td>
+    <td>{{d._source.loc_name}}</td>
    <td>
-       <button type="button" class="btn btn-edit" data-toggle="modal" data-target ="#edit{{d.loc_id}}">
+       <button type="button" class="btn btn-edit" data-toggle="modal" data-target ="#edit{{d._id}}">
        <span class="btn-icon"><i class="glyphicon glyphicon-pencil"></i></span>Edit</button>
    </td>
    <!--editmodal-->
-   <div class="modal fade" id="edit{{d.loc_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:150px;">
+   <div class="modal fade" id="edit{{d._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:150px;">
      <div class="modal-dialog" role="document">
        <div class="modal-content">
          <div class="modal-header">
@@ -78,11 +78,11 @@
          </div>
          <div id="modal-cont" class="modal-body" >
         <form  action="" method="POST" id="">
-          <input type="hidden" name="locid" value="{{d.loc_id}}"/>
-          <input type="hidden" name="locname" value="{{d.loc_name}}"/>
+          <input type="hidden" name="locid" value="{{d._source._id}}"/>
+          <input type="hidden" name="locname" value="{{d._source._name}}"/>
              {{ lform.csrf_token() }}
              {{lform.editlocname.label(class="form-control-label")}}<br>
-             {{ lform.editlocname(class="form-control form-control-lg",placeholder=d.loc_name) }}
+             {{ lform.editlocname(class="form-control form-control-lg",placeholder=d._source.loc_name) }}
 
          </div>
          <div class="modal-footer">
@@ -98,7 +98,7 @@
    </div>
    <!--editmodal end-->
    <td>
-      <a href="{{ url_for('delete', p_id = d.loc_id,type ='location' )}}">
+      <a href="{{ url_for('delete', p_id = d._id,type ='location' )}}">
        <button type="button" class="btn btn-delete">
        <span class="btn-icon"><i class="glyphicon glyphicon-trash"></i></span>Delete</button>
    </td>

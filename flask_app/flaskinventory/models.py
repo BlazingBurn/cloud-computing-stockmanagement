@@ -1,40 +1,57 @@
-from flaskinventory import db
+from flaskinventory import es
 from datetime import datetime
+import uuid
 
-# Model de Location
-class Location(db.Model):
-    loc_id = db.Column(db.Integer, primary_key= True)
-    loc_name = db.Column(db.String(20),unique = True, nullable = False)
+class Location:
+    def __init__(self, loc_name):
+        self.loc_id = str(uuid.uuid4())
+        self.loc_name = loc_name
 
-    def __repr__(self):
-        return f"Location('{self.loc_id}','{self.loc_name}')"
+    def save_to_es(self):
+        es.index(index='locations', doc_type='_doc', id=self.loc_id, body={
+            'loc_name': self.loc_name
+        })
 
-# Model de Product
-class Product(db.Model):
-    prod_id = db.Column(db.Integer, primary_key= True)
-    prod_name = db.Column(db.String(20), nullable = False)
-    prod_qty = db.Column(db.Integer, nullable = False)
-    def __repr__(self):
-        return f"Product('{self.prod_id}','{self.prod_name}','{self.prod_qty}')"
+class Product:
+    def __init__(self, prod_name, prod_qty):
+        self.prod_id = str(uuid.uuid4())
+        self.prod_name = prod_name
+        self.prod_qty = prod_qty
 
-# Model de Movement
-class Movement(db.Model):
-    mid = db.Column(db.Integer, primary_key= True)
-    ts = db.Column(db.DateTime, default=datetime.utcnow)
-    frm = db.Column(db.String(20), nullable = False)
-    to = db.Column(db.String(20), nullable = False)
-    pname = db.Column(db.String(20), nullable = False)
-    pqty = db.Column(db.Integer, nullable = False)
+    def save_to_es(self):
+        es.index(index='products', doc_type='_doc', id=self.prod_id, body={
+            'prod_name': self.prod_name,
+            'prod_qty': self.prod_qty
+        })
 
-    def __repr__(self):
-        return f"Movement('{self.mid}','{self.ts}','{self.frm}','{self.to}','{self.pname}','{self.pqty}')"
+class Movement:
+    def __init__(self, ts, frm, to, pname, pqty):
+        self.mid = str(uuid.uuid4())
+        self.ts = ts
+        self.frm = frm
+        self.to = to
+        self.pname = pname
+        self.pqty = pqty
 
-# Model de Balance
-class Balance(db.Model):
-    bid = db.Column(db.Integer, primary_key= True,nullable = False)
-    product = db.Column(db.String(20), nullable = False)
-    location = db.Column(db.String(20),nullable = False)
-    quantity = db.Column(db.Integer, nullable = False)
+    def save_to_es(self):
+        es.index(index='movements', doc_type='_doc', id=self.mid, body={
+            'ts': self.ts,
+            'frm': self.frm,
+            'to': self.to,
+            'pname': self.pname,
+            'pqty': self.pqty
+        })
 
-    def __repr__(self):
-        return f"Balance('{self.bid}','{self.product}','{self.location}','{self.quantity}')"
+class Balance:
+    def __init__(self, product, location, quantity):
+        self.bid = str(uuid.uuid4())
+        self.product = product
+        self.location = location
+        self.quantity = quantity
+
+    def save_to_es(self):
+        es.index(index='balances', doc_type='_doc', id=self.bid, body={
+            'product': self.product,
+            'location': self.location,
+            'quantity': self.quantity
+        })

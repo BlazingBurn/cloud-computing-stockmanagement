@@ -41,12 +41,12 @@
           </div>
 
           <div id="from">
-          {{form.src.label(class="form-control-label")}}<br>
-          {{form.src(class="form-control form-control-lg")}}
+            {{ form.src.label(class="form-control-label") }}<br>
+            {{ form.src(class="form-control form-control-lg", id="source") }}
           </div>
           <div id="to">
-          {{form.destination.label(class="form-control-label")}}<br>
-          {{form.destination(class="form-control form-control-lg")}}
+            {{ form.destination.label(class="form-control-label") }}<br>
+            {{ form.destination(class="form-control form-control-lg", id="destination") }}
           </div>
 
             {{form.mprodqty.label(class="form-control-label")}}<br>
@@ -81,12 +81,12 @@
 <tbody>
 {%for d in details%}
  <tr>
-   <td>{{d.mid}}</td>
-   <td>{{d.ts}}</td>
-   <td>{{d.frm}}</td>
-   <td>{{d.to}}</td>
-   <td>{{d.pname}}</td>
-   <td>{{d.pqty}}</td>
+   <td>{{d._id}}</td>
+   <td>{{d._source.ts}}</td>
+   <td>{{d._source.frm}}</td>
+   <td>{{d._source.to}}</td>
+   <td>{{d._source.pname}}</td>
+   <td>{{d._source.pqty}}</td>
  </tr>
  {% endfor %}
 </tbody>

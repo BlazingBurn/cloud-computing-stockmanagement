@@ -28,9 +28,9 @@ RUN apt-get update && apt-get install -y lsb-release
 ENV TERM=xterm
 
 # ADD ODBC Driver 18
-RUN apt-get update && apt-get -y install curl
-COPY odbc18install.sh /app/
-RUN chmod +x /app/odbc18install.sh && /app/odbc18install.sh
+# RUN apt-get update && apt-get -y install curl
+# COPY odbc18install.sh /app/
+# RUN chmod +x /app/odbc18install.sh && /app/odbc18install.sh
 
 # Installe les dépendances Python à partir du fichier requirements.txt
 RUN pip3 install -r requirements.txt

@@ -69,16 +69,16 @@
 <tbody>
   {% for d in details %}
   <tr>
-   <td>{{d.prod_id}}</td>
-   <td>{{d.prod_name}}</td>
-   <td>{{d.prod_qty}}</td>
+   <td>{{d._id}}</td>
+   <td>{{d._source.prod_name}}</td>
+   <td>{{d._source.prod_qty}}</td>
    <td>
-       <button type="button" class="btn btn-edit" data-toggle="modal" data-target = "#edit{{d.prod_id}}" >
+       <button type="button" class="btn btn-edit" data-toggle="modal" data-target = "#edit{{d._id}}" >
        <span class="btn-icon"><i class="glyphicon glyphicon-pencil"></i></span>Edit</button>
 
    </td>
    <!--editmodal-->
-   <div class="modal fade" id="edit{{d.prod_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:150px;">
+   <div class="modal fade" id="edit{{d._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:150px;">
      <div class="modal-dialog" role="document">
        <div class="modal-content">
          <div class="modal-header">
@@ -89,14 +89,14 @@
          </div>
          <div id="modal-cont" class="modal-body" >
            <form  action="" method="POST" id="products">
-             <input type="hidden" name="productid" value="{{d.prod_id}}"/>
-             <input type="hidden" name="productname" value="{{d.prod_name}}"/>
+             <input type="hidden" name="productid" value="{{d._id}}"/>
+             <input type="hidden" name="productname" value="{{d._source.prod_name}}"/>
              {{ eform.csrf_token() }}
              {{eform.editname.label(class="form-control-label")}}<br>
-             {{ eform.editname(class="form-control form-control-lg",placeholder=d.prod_name) }}
+             {{ eform.editname(class="form-control form-control-lg",placeholder=d._source.prod_name) }}
 
              {{eform.editqty.label(class="form-control-label")}}<br>
-             {{eform.editqty(class="form-control form-control-lg",placeholder=d.prod_qty)}}
+             {{eform.editqty(class="form-control form-control-lg",placeholder=d._source.prod_qty)}}
          </div>
          <div class="modal-footer">
            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -113,7 +113,7 @@
    </div>
    <!--editmodal end-->
    <td>
-      <a href="{{ url_for('delete', p_id = d.prod_id,type ='product') }}">
+      <a href="{{ url_for('delete', p_id = d._id,type ='product') }}">
        <button type="button" class="btn btn-delete">
        <span class="btn-icon"><i class="glyphicon glyphicon-trash"></i></span>Delete</button></a>
    </td>

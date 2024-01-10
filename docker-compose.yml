@@ -2,16 +2,19 @@ version: '3'
 
 services:
 
-  # Service du backend SQL Server
-  sql-server-backend:
+  # Service du backend ElasticSearch
+  elasticsearch-backend:
     build:
-      context: ./sql_server
+      context: ./elastic_backend
     environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "abcDEF123#"
-      MSSQL_PID: "Developer"
+      - discovery.type=single-node
     ports:
-      - "1433:1433"
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     networks:
       - my-network
 
@@ -19,10 +22,13 @@ services:
   flask-frontend:
     build:
       context: ./flask_app
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch-backend:9200
     ports:
       - "5000:5000"
     depends_on:
-      - sql-server-backend
+      elasticsearch-backend:
+        condition: service_healthy
     networks:
       - my-network
       - mynetworknginx
@@ -47,10 +53,10 @@ services:
       context: ./test
     depends_on:
       - flask-frontend
-      - sql-server-backend
+      - elasticsearch-backend
     volumes:
       - ./flask_app:/app
-      - ./tests:/tests
+      - ./test:/tests
 
 networks:
   my-network:

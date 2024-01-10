@@ -25,37 +25,37 @@ def test_bon_fonctionnement_application():
         print("Problème avec l'application Flask.")
 
 # Vérification du bon fonctionnement de la base de données MySQL
-def test_bon_fonctionnement_base_de_donnees():
-    server = 'microservice_implement_stockmanagement-sql-server-backend-1,1433'
-    database = "InventoryManagement"
-    username = "SA"
-    password = "abcDEF123#"
+# def test_bon_fonctionnement_base_de_donnees():
+#     server = 'microservice_implement_stockmanagement-sql-server-backend-1,1433'
+#     database = "InventoryManagement"
+#     username = "SA"
+#     password = "abcDEF123#"
 
-    try:
-        # Chaîne de connexion à la base de données SQL Server
-        # conn_str = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
-        conn_str = 'DRIVER={{ODBC Driver 18 for SQL Server}};Server='+server+';Database='+ database + ';Uid=' + username  + ';Pwd='+ password + ';Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;'
+#     try:
+#         # Chaîne de connexion à la base de données SQL Server
+#         # conn_str = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+#         conn_str = 'DRIVER={{ODBC Driver 18 for SQL Server}};Server='+server+';Database='+ database + ';Uid=' + username  + ';Pwd='+ password + ';Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;'
 
-        # Connexion à la base de données
-        connection = pyodbc.connect(conn_str)
-        cursor = connection.cursor()
+#         # Connexion à la base de données
+#         connection = pyodbc.connect(conn_str)
+#         cursor = connection.cursor()
 
-        # Exécution d'une requête pour vérifier le bon fonctionnement
-        cursor.execute("SELECT COUNT(*) FROM Location")
-        count = cursor.fetchone()[0]
+#         # Exécution d'une requête pour vérifier le bon fonctionnement
+#         cursor.execute("SELECT COUNT(*) FROM Location")
+#         count = cursor.fetchone()[0]
 
-        if count > 0:
-            print("La base de données SQL Server fonctionne correctement.")
-        else:
-            print("Aucune entrée dans la table. Vérifiez la base de données.")
-    except Exception as e:
-        print(f"Problème avec la base de données SQL Server: {str(e)}")
-    finally:
-        if 'connection' in locals() and connection:
-            connection.close()
+#         if count > 0:
+#             print("La base de données SQL Server fonctionne correctement.")
+#         else:
+#             print("Aucune entrée dans la table. Vérifiez la base de données.")
+#     except Exception as e:
+#         print(f"Problème avec la base de données SQL Server: {str(e)}")
+#     finally:
+#         if 'connection' in locals() and connection:
+#             connection.close()
 
 # Exécution des tests
 if __name__ == "__main__":
     test_sante_conteneurs()
     test_bon_fonctionnement_application()
-    test_bon_fonctionnement_base_de_donnees()
+    # test_bon_fonctionnement_base_de_donnees()
