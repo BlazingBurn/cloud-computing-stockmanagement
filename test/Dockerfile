@@ -18,20 +18,9 @@ WORKDIR /app
 # Copier le fichier requirements.txt dans le conteneur
 COPY requirements.txt requirements.txt
 
-# Installer lsb-release
-RUN apt-get update && apt-get install -y lsb-release
-
-# Définir la variable d'environnement TERM
-ENV TERM=xterm
-
-# ADD ODBC Driver 18
-RUN apt-get update && apt-get -y install curl
-COPY odbc18install.sh /app/
-RUN chmod +x /app/odbc18install.sh && /app/odbc18install.sh
-
 # Installe les dépendances Python à partir du fichier requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY ./test.py /app
 
-CMD [ "python3", "-u", "/app/test.py" ]
+CMD [ "python3", "-u", "test.py" ]

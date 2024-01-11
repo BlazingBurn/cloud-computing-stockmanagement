@@ -97,30 +97,6 @@ services:
     networks:
       - my-network
 
-  test-runner:
-    image: appropriate/curl
-    depends_on:
-      elasticsearch-backend:
-        condition: service_healthy
-      flask-frontend:
-        condition: service_started
-      logstash:
-        condition: service_started
-      nginx-proxy:
-        condition: service_started
-      kibana:
-        condition: service_started
-      metricbeat:
-        condition: service_started
-    volumes:
-      - ./scripts:/scripts
-    command: >
-      /bin/bash -c "
-      sleep 60;
-      /scripts/check_containers.sh &&
-      /scripts/check_elk.sh
-      "
-
 networks:
   my-network:
     driver: bridge

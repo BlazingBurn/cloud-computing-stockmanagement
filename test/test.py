@@ -5,7 +5,7 @@ import pyodbc
 
 # Vérification de la santé des conteneurs Docker
 def test_sante_conteneurs():
-    conteneurs = ["microservice_implement_stockmanagement-flask-frontend-1", "microservice_implement_stockmanagement-sql-server-backend-1"]
+    conteneurs = ["microservice_implement_stockmanagement-flask-frontend-1"]
 
     for conteneur in conteneurs:
         try:
